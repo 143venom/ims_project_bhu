@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    {% if page_title %}
+    <title>{{ page_title }} | Inventory Management System</title>
+    {% else %}
+    <title>Inventory Management System</title>
+    {% endif %}
+    <link rel="icon" href="{{ MEDIA_URL }}/default/logo.png">
+    <link rel="stylesheet" href="{% static 'assets/font-awesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/select2/dist/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/mdb-blogtemplate/css/mdb.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/DataTables/datatables.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/default/css/style.css' %}">
+
+    <script src="{% static 'assets/font-awesome/js/all.min.js' %}"></script>
+    <script src="{% static 'assets/default/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/DataTables/datatables.min.js' %}"></script>
+    <script src="{% static 'assets/bootstrap/js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/mdb-blogtemplate/js/mdb.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/default/js/script.js' %}"></script>
+    {% block headerContent %} {% endblock headerContent %}
+
+    <style>
+        body {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -250px; /* Initially hidden */
+            background-color: #fff;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            padding-top: 58px;
+            z-index: 1000;
+            transition: left 0.3s ease; /* Smooth transition */
+        }
+
+        .sidebar.show {
+            left: 0; /* Show sidebar */
+        }
+
+        .sidebar .nav-item {
+            padding: 10px 20px;
+        }
+
+        .sidebar .nav-item .nav-link {
+            display: block;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-item .nav-link:hover, .sidebar .nav-item .nav-link.active {
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .content {
+            margin-left: 0; /* Initial margin */
+            padding: 20px;
+            width: 100%;
+        }
+
+        .content.open-sidebar {
+            margin-left: 250px; /* Adjusted margin when sidebar is open */
+        }
+
+        .modal-dialog {
+            max-width: 600px;
+        }
+    </style>
+</head>
+
+<body class="">
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="container">
+            <a class="navbar-brand" target="_blank" href="{% url 'home-page' %}">
+                <img src="{{ MEDIA_URL }}/default/logo.png" height="16" alt="{{ MEDIA_URL }}" loading="lazy" style="margin-top: -3px;" />
+            </a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="sideNav">
+                {% if user.id %}
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'home-page' %}">DASHBOARD</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'category-page' %}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'product-page' %}">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'inventory-page' %}">Inventory</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'sales-page' %}">Sales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'invoice-page' %}">Invoices</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'invoice-page' %}">Company Info</a>
+                </li>
+                {% endif %}
+            </ul>
+
+            <ul class="navbar-nav d-flex flex-row">
+                {% if user.id %}
+                {% if user.profile.user_type == 1 %}
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">
+                        <span class="me-1"><img src="{{ MEDIA_URL }}/default/default-avatar.png" alt="User Avatar" id="user-avatar" class="img-thumbnail rounded-circle"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                
+                <li class="nav-item me-3 me-lg-0">
+                    <a class="nav-link" href="{% url 'register-user' %}">Signup</a>
+                </li>
+                
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <!-- End
